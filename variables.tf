@@ -84,4 +84,5 @@ locals {
     "ami-0945845b39d75e25f" = "suse"   
   }
   selected_ami = lookup(local.ami, var.Operation_System)
+  user_name = lookup(local.ssh_user,local.selected_ami,"no need")
 }

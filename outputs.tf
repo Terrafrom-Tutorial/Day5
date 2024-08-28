@@ -13,5 +13,5 @@ output "debug_var_public_subnet" {
 }
 
 output "ssh-command" {
-  value = "ssh -i ${local_file.private-key.filename} ${lookup(local.ssh_user,local.selected_ami,"no need")}@${aws_eip.EIP.public_ip}" 
+  value = "ssh -i ${local_file.private-key.filename} ${local.user_name}@${aws_eip.EIP.public_ip}" 
 }
