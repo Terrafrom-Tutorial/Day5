@@ -15,19 +15,6 @@ resource "aws_key_pair" "ec2_key_pair" {
   public_key = tls_private_key.prodKey.public_key_openssh
 }
 
-#Create EC2 instance
-resource "aws_instance" "server" {
-  ami                    = local.selected_ami
-  instance_type          = var.instance_type
-  subnet_id              = aws_subnet.pub-subnets["pub-subnet-1"].id
-  vpc_security_group_ids = [aws_security_group.server_sg.id]
-  key_name               = aws_key_pair.ec2_key_pair.key_name
-
-  tags = {
-    Name = "${var.vpc.Name} Server"
-  }
-}
-
 resource "aws_security_group" "server_sg" {
   vpc_id = aws_vpc.Pro-VPC.id
   name   = "server-sg"
@@ -47,6 +34,20 @@ resource "aws_vpc_security_group_egress_rule" "egress_all_allow" {
   cidr_ipv4         = local.anywhere
   ip_protocol       = "-1" # all protocol allow
 }
+#Create EC2 instance
+resource "aws_instance" "server" {
+  ami                    = local.selected_ami
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.pub-subnets["pub-subnet-1"].id
+  vpc_security_group_ids = [aws_security_group.server_sg.id]
+  key_name               = aws_key_pair.ec2_key_pair.key_name
+
+  tags = {
+    Name = "${var.vpc.Name} Server"
+  }
+}
+
+
 
 # Crate Elastic IP
 resource "aws_eip" "EIP" {
