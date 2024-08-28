@@ -7,7 +7,7 @@ resource "tls_private_key" "prodKey" {
 resource "local_file" "private-key" {
   filename        = "${path.root}/private_key.pem"
   content         = tls_private_key.prodKey.private_key_pem
-  
+  file_permission = "600"
 }
 
 resource "aws_key_pair" "ec2_key_pair" {
